@@ -13,6 +13,8 @@ library(e1071)
 library(class)
 library(caret)
 library(caTools)
+library(ROSE)
+
 
 # Carregando os Dados
 df <- readARFF("Acoustic_Extinguisher_Fire_Dataset.arff")
@@ -33,7 +35,7 @@ unique(df$DISTANCE)
 unique(df$CLASS)
 
 
-# Etapa 3: #### Análise Exploratória dos Dados - Limpeza dos Dados #####
+#### Análise Exploratória dos Dados - Limpeza dos Dados #####
 
 # Extraindo os nomes das colunas, e gravando em um vetor
 colnames(df)
@@ -162,9 +164,9 @@ mean(previsao_rf_v1 == dados_teste$Extincao_Chama) # Percentual de acerto: 89.22
 # Estatísticas da Previsão acima:
 confusionMatrix(dados_teste$Extincao_Chama, previsao_rf_v1, positive = 'SIM') # Accuracy: 89.22%
 roc.curve(dados_teste$Extincao_Chama, previsao_rf_v1, plotit = T, col = "red") # ACU: 0.89
+??roc.curve
 
-
-# Criando o Modelo Preditivo com RandomForest, versão 2:
+ # Criando o Modelo Preditivo com RandomForest, versão 2:
 modelo_rf_v2 <- randomForest(Extincao_Chama ~ ., data = dados_treino, ntree = 100, nodesize = 10)
 modelo_rf_v2 # Error rate: 3.99%
 
@@ -176,7 +178,7 @@ mean(previsao_rf_v2 == dados_teste$Extincao_Chama) # Percentual de acerto: 96.73
 
 
 # Estatísticas da Previsão acima: 
-confusionMatrix(dados_teste$Extincao_Chama, previsao_rf_v2, positive = 'SIM') # Accuracy: 96.73%
+confusionMatrix(dados_teste$Extincao_Chama, previsao_rf_v2, positive = 'SIM') # Accuracy: 96.7%
 roc.curve(dados_teste$Extincao_Chama, previsao_rf_v2, plotit = T, col = "red") # AUC: 0.967
 
 
@@ -228,3 +230,4 @@ roc.curve(dados_teste$Extincao_Chama, previsao_svm_v1, plotit = T, col = "red") 
 # Como Modelo Final, vou escolher o segundo modelo criado com o RandomFores, "modelo_rf_v2".
 
 
+   
